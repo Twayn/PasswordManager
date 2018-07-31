@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MainPageController {
+	private final int passwordLength = 20;
 
 	@Value("${generate.password:test}")
 	private String password = "password";
@@ -23,7 +24,7 @@ public class MainPageController {
 	@PostMapping("/")
 	public String post(@ModelAttribute Account account, Map<String, Object> model) throws Exception {
 		var transformer = new AccountToPasswordTransformer(account);
-		model.put("password", transformer.password());
+		model.put("password", transformer.generatePassword(passwordLength));
 		return "index";
 	}
 }
